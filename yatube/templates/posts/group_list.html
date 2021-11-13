@@ -5,14 +5,10 @@
 {% endblock %}
 
 {% block content %}
-<main>
   <div class="container">
     <h1>{{ group.title }}</h1>
-    {% if group.description %}
-      <p>{{ group.description }}</p>
-    {% endif %}
+    <p>{{ group.description }}</p>
     {% for post in page_obj %}
-      {% if post.group.slug in group.slug %}
         <ul>
           <li>Автор: {{ post.author.get_full_name }}
             <a href="{% url "posts:profile" post.author %}">
@@ -24,9 +20,7 @@
         <p>{{ post.text }}</p>
         <a href="{% url "posts:post_detail" post.id %}">подробная информация</a>
         {% if not forloop.last %}<hr>{% endif %}
-      {% endif %}
     {% endfor %}
     {% include 'posts/includes/paginator.html' %}
   <div>
-</main>
 {% endblock %}

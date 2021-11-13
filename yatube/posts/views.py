@@ -28,7 +28,6 @@ def group_posts(request, slug):
     template = 'posts/group_list.html'
     context = {
         'group': group,
-        'posts': posts,
         'page_obj': page_obj,
     }
     return render(request, template, context)
