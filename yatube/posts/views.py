@@ -77,16 +77,13 @@ def post_create(request):
 @login_required
 def post_edit(request, post_id):
     post = get_object_or_404(Post, id=post_id)
-    form = PostForm(instance=post)
 
-    if request.method == 'POST':
-        form = PostForm(request.POST, instance=post)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            form.save()
-            return redirect('posts:post_detail', post_id)
-        return render(request, 'posts/create_post.html', {'form': form})
+    form = PostForm(request.POST or None, instance=post)
+    if form.is_valid():
+        post = form.save(commit=False)
+        post.author = request.user
+        form.save()
+        return redirect('posts:post_detail', post_id)
 
     is_edit = True
     template = 'posts/create_post.html'
