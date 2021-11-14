@@ -80,9 +80,9 @@ def post_edit(request, post_id):
 
     form = PostForm(request.POST or None, instance=post)
     if form.is_valid():
-        post.author = request.user
-        form.save()
-        return redirect('posts:post_detail', post_id)
+        if request.user == post.author:
+            form.save()
+            return redirect('posts:post_detail', post_id)
 
     is_edit = True
     template = 'posts/create_post.html'
