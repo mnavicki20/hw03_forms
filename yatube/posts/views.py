@@ -80,7 +80,6 @@ def post_edit(request, post_id):
 
     form = PostForm(request.POST or None, instance=post)
     if form.is_valid():
-        post = form.save(commit=False)
         post.author = request.user
         form.save()
         return redirect('posts:post_detail', post_id)
