@@ -74,8 +74,7 @@ def post_create(request):
             return redirect('posts:profile', post.author)
         return render(request, template, {'form': form})
     form = PostForm()
-    title = 'Добавить запись'
-    return render(request, template, {'form': form, 'title': title})
+    return render(request, template, {'form': form})
 
 
 @login_required
