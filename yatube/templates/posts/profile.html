@@ -22,10 +22,10 @@
             <p>
               {{ post }}
             </p>
-            <a href="{% url "posts:post_detail" post.id %}">подробная информация </a>
+            <a href="{% url 'posts:post_detail' post.id %}">подробная информация </a>
           </article>
           {% if post.group %}
-            <a href="{% url "posts:group_posts" post.group.slug %}">все записи группы</a>
+            <a href="{% url 'posts:group_posts' post.group.slug %}">все записи группы</a>
           {% endif %}
             {% if not forloop.last %}
               <hr>

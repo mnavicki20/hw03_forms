@@ -16,7 +16,7 @@
               {% if post.group %}
                 <li class="list-group-item">
                   Группа: {{ post.group }}
-                  <a href="{% url "posts:group_posts" post.group.slug %}">
+                  <a href="{% url 'posts:group_posts' post.group.slug %}">
                     все записи группы
                   </a>
                 </li>
@@ -28,7 +28,7 @@
                 Всего постов автора: <span >{{ count }}</span>
               </li>
               <li class="list-group-item">
-                <a href="{% url "posts:profile" post.author %}">
+                <a href="{% url 'posts:profile' post.author %}">
                   все посты пользователя
                 </a>
               </li>
@@ -38,8 +38,8 @@
             <p>
               {{ post.text }}
             </p>
-            {% if user.username == post.author.username %}
-              <a href="{% url "posts:post_edit" post.id %}">
+            {% if request.user == post.author %}
+              <a href="{% url 'posts:post_edit' post.id %}">
                 Редактировать пост
               </a>
             {% endif %}
