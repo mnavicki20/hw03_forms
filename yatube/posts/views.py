@@ -80,9 +80,9 @@ def post_create(request):
 def post_edit(request, post_id):
     post = get_object_or_404(Post, id=post_id)
 
-    form = PostForm(request.POST or None, instance=post)
-    if form.is_valid():
-        if request.user == post.author:
+    if request.user == post.author:
+        form = PostForm(request.POST or None, instance=post)
+        if form.is_valid():
             form.save()
             return redirect('posts:post_detail', post_id)
 
