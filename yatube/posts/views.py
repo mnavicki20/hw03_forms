@@ -8,15 +8,21 @@ from .forms import PostForm
 from .models import Group, Post, User
 
 
-def index(request):
-    post_list = Post.objects.all()
-    paginator = Paginator(post_list, ITEMS_PER_PAGE)
+def pagination(request, queryset):
+    paginator = Paginator(queryset, ITEMS_PER_PAGE)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    template = 'posts/index.html'
-    context = {
+    return {
+        'paginator': paginator,
+        'page_namber': page_number,
         'page_obj': page_obj,
     }
+
+
+def index(request):
+    post_list = Post.objects.all()
+    context = pagination(request, post_list)
+    template = 'posts/index.html'
     return render(request, template, context)
 
 
