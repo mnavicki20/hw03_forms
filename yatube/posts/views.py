@@ -31,7 +31,7 @@ def group_posts(request, slug):
     posts = group.posts.all()
     context = {
         'group': group,
-        'posts':posts,
+        'posts': posts,
     }
     context.update(pagination(request, posts))
     template = 'posts/group_list.html'
@@ -42,17 +42,14 @@ def profile(request, username):
     author = get_object_or_404(User, username=username)
     post_list = author.posts.all()
     count_user_posts = post_list.count()
-    paginator = Paginator(post_list, ITEMS_PER_PAGE)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
     title = username
-    template = 'posts/profile.html'
     context = {
         'author': author,
         'count_user_posts': count_user_posts,
-        'page_obj': page_obj,
         'title': title,
     }
+    context.update(pagination(request, post_list))
+    template = 'posts/profile.html'
     return render(request, template, context)
 
 
