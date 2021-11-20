@@ -19,7 +19,7 @@ class PostModelTest(TestCase):
         cls.post = Post.objects.create(
             author=cls.user,
             text='Тестовый текст публикации',
-            pub_date='Тестоавая дата публикации',
+            pub_date='Тестовая дата публикации',
         )
 
     def test_model_group_has_correct_object_names(self):
