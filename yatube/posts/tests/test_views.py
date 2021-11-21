@@ -51,7 +51,7 @@ class PostViewsTest(TestCase):
                 self.assertTemplateUsed(response, template)
 
     # Проверка словаря контекста главной страницы
-    def test_index_show_correct_context(self):
+    def test_index_shows_correct_context(self):
         """Шаблон главной страницы сформирован корректным контекстом."""
         response = self.authorized_client.get(reverse('posts:index'))
         expected_context = self.post
@@ -59,14 +59,23 @@ class PostViewsTest(TestCase):
         self.assertEqual(current_context, expected_context)
 
     # Проверка словаря контекста страницы пользователя
-    def test_profile_page_show_correct_context(self):
+    def test_profile_page_shows_correct_context(self):
         """Шаблон страницы пользователя сформирован корректным контекстом."""
         profile_url = reverse('posts:profile', kwargs={'username': self.author})
         response = self.authorized_client.get(profile_url)
         current_context = response.context['author']
         expected_context = PostViewsTest.author
         self.assertEqual(current_context, expected_context)
-    
+
+    # Проверка словаря контекста страницы публикации
+    def test_post_page_shows_correct_context(self):
+        """Шаблон страницы публикации сформирован корректным контекстом."""
+        post_url = reverse('posts:post_detail', kwargs={'post_id': 1})
+        response = self.authorized_client.get(post_url)
+        current_context = response.context['post']
+        expected_context = PostViewsTest.post
+        self.assertEqual(current_context, expected_context)
+
     # Проверка отражения поста при указании группы
     # на страницах index, group, profile
     def test_new_post_appears_on_pages(self):
