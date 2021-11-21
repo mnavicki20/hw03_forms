@@ -58,6 +58,15 @@ class PostViewsTest(TestCase):
         current_context = response.context['page_obj'][0]
         self.assertEqual(current_context, expected_context)
 
+    # Проверка словаря контекста страницы пользователя
+    def test_profile_page_show_correct_context(self):
+        """Шаблон страницы пользователя сформирован корректным контекстом."""
+        profile_url = reverse('posts:profile', kwargs={'username': self.author})
+        response = self.authorized_client.get(profile_url)
+        current_context = response.context['author']
+        expected_context = PostViewsTest.author
+        self.assertEqual(current_context, expected_context)
+    
     # Проверка отражения поста при указании группы
     # на страницах index, group, profile
     def test_new_post_appears_on_pages(self):
