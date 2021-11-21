@@ -76,6 +76,15 @@ class PostViewsTest(TestCase):
         expected_context = PostViewsTest.post
         self.assertEqual(current_context, expected_context)
 
+    # Проверка словаря контекста страницы группы
+    def test_group_page_shows_correct_context(self):
+        """Шаблон страницы группы сформирован корректным контекстом."""
+        group_url = reverse('posts:group_posts', kwargs={'slug': 'test-slug'})
+        response = self.authorized_client.get(group_url)
+        current_context = response.context['group']
+        expected_context = PostViewsTest.group
+        self.assertEqual(current_context, expected_context)
+
     # Проверка отражения поста при указании группы
     # на страницах index, group, profile
     def test_new_post_appears_on_pages(self):
