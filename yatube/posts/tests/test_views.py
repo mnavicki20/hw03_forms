@@ -1,7 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
 from django.urls import reverse
-from django import forms
 
 from ..models import Post, Group
 
@@ -31,7 +30,7 @@ class PostViewsTest(TestCase):
         self.authorized_client = Client()
         self.authorized_client.force_login(self.author)
 
-    # Проврка используемых шаблонов
+    # Проверка используемых шаблонов
     def test_pages_use_correct_templates(self):
         """URL-адрес использует корректный шаблон."""
         templates_pages_names = {
@@ -59,7 +58,8 @@ class PostViewsTest(TestCase):
         current_context = response.context['page_obj'][0]
         self.assertEqual(current_context, expected_context)
 
-    # Проверка отражения поста при указании группы на страницах index, group, profile
+    # Проверка отражения поста при указании группы
+    # на страницах index, group, profile
     def test_new_post_appears_on_pages(self):
         """Новый пост отображается на страницах index, group, profile"""
         expected_context = self.post
@@ -77,8 +77,12 @@ class PostViewsTest(TestCase):
 
     # Проверка того, что пост не попал не в свою группу
     def test_new_post_does_not_appear_in_other_group(self):
-        """Новый post не отображается в группе, для которой не был предназначен."""
+        """
+        Новый post не отображается в группе, для которой не был предназначен.
+        """
         Group.objects.create(slug='other-test-slug')
-        other_url = reverse('posts:group_posts', kwargs={'slug': 'other-test-slug'})
+        other_url = reverse(
+            'posts:group_posts', kwargs={'slug': 'other-test-slug'}
+        )
         response = self.authorized_client.get(other_url)
         self.assertNotIn(PostViewsTest.post, response.context['page_obj'])
